@@ -1,0 +1,11 @@
+diff --git a/madgraph/iolibs/template_files/makefile_sa_f_sp b/madgraph/iolibs/template_files/makefile_sa_f_sp
+--- a/madgraph/iolibs/template_files/makefile_sa_f_sp
++++ b/madgraph/iolibs/template_files/makefile_sa_f_sp
+@@ -1,2 +1,6 @@
+-include ../../Source/make_opts
++ifneq ("$(wildcard ../../Source/make_opts)","")
++include ../../Source/make_opts
++else
++include ../Source/make_opts
++endif
+ SHELL = /bin/bash
