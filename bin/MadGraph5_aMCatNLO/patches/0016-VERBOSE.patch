@@ -1,0 +1,7 @@
+--- a/madgraph/various/banner.py        2016-06-11 00:38:14.000000000 +0800
++++ b/madgraph/various/banner.py        2017-10-05 21:28:40.794461532 +0800
+@@ -1027,3 +1027,3 @@
+                 while len(data) > i:
+-                    current = filter(None, re.split(r'(?:(?<!\\)\s)|,', data[i], re.VERBOSE))
++                    current = filter(None, re.split(r'(?:(?<!\\)\s)|,', data[i], flags=re.VERBOSE))
+                     i+=1
