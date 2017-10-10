@@ -1,8 +1,8 @@
 diff --git a/Template/LO/Source/make_opts b/Template/LO/Source/make_opts
 index 92a3fe4..026b115 100644
---- a/Template/LO/Source/make_opts
-+++ b/Template/LO/Source/make_opts
-@@ -33,7 +33,7 @@ CFLAGS= -O $(STDLIB_FLAG) $(MACFLAG)
+--- a/Template/LO/Source/.make_opts
++++ b/Template/LO/Source/.make_opts
+@@ -38,7 +38,7 @@ CFLAGS= -O $(STDLIB_FLAG) $(MACFLAG)
  endif
  
  # Increase the number of allowed charcters in a Fortran line
@@ -11,14 +11,7 @@ index 92a3fe4..026b115 100644
  
  # Set FC unless it's defined by an environment variable
  ifeq ($(origin FC),default)
-@@ -90,4 +90,4 @@ llhapdf+= -lLHAPDF
- else
- alfas_functions=alfas_functions
- llhapdf=
--endif
-\ No newline at end of file
-+endif
-diff --git a/Template/NLO/Source/make_opts.inc b/Template/NLO/Source/make_opts.inc
+diff --git a/Template/NLO/Source/.make_opts.inc b/Template/NLO/Source/.make_opts.inc
 index 964abc6..4e14603 100644
 --- a/Template/NLO/Source/make_opts.inc
 +++ b/Template/NLO/Source/make_opts.inc
@@ -35,7 +28,7 @@ diff --git a/madgraph/iolibs/export_v4.py b/madgraph/iolibs/export_v4.py
 index 47367e1..beef7fe 100755
 --- a/madgraph/iolibs/export_v4.py
 +++ b/madgraph/iolibs/export_v4.py
-@@ -358,6 +358,9 @@ class ProcessExporterFortran(object):
+@@ -498,6 +498,9 @@ class ProcessExporterFortran(object):
           LHAPath='%(path)s/../lhapdf/pdfsets/'
           Inquire(File=LHAPath, exist=exists)
           if(exists)return  

@@ -2,7 +2,7 @@ diff --git a/madgraph/various/cluster.py b/madgraph/various/cluster.py
 index 4a9c3d6..62f6a37 100755
 --- a/madgraph/various/cluster.py
 +++ b/madgraph/various/cluster.py
-@@ -846,6 +846,40 @@ class CondorCluster(Cluster):
+@@ -850,6 +850,40 @@ class CondorCluster(Cluster):
      name = 'condor'
      job_id = 'CONDOR_ID'
  
@@ -43,7 +43,7 @@ index 4a9c3d6..62f6a37 100755
  
  
      @multiple_try()
-@@ -1006,54 +1040,46 @@ class CondorCluster(Cluster):
+@@ -1010,54 +1044,46 @@ class CondorCluster(Cluster):
      @multiple_try(nb_try=10, sleep=10)
      def control_one_job(self, id):
          """ control the status of a single job with it's cluster id """

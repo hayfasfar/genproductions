@@ -9,23 +9,24 @@ Subject: [PATCH 8/8] allow for reweighting with up to 40 PDF sets (for NLO proce
  madgraph/various/banner.py              |    4 ++--
  3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Template/LO/Source/make_opts b/Template/LO/Source/make_opts
+diff --git a/Template/LO/Source/.make_opts b/Template/LO/Source/.make_opts
 index 92a3fe4..a2c75f7 100644
---- a/Template/LO/Source/make_opts
-+++ b/Template/LO/Source/make_opts
-@@ -1,9 +1,9 @@
+--- a/Template/LO/Source/.make_opts
++++ b/Template/LO/Source/.make_opts
+@@ -1,10 +1,10 @@
  DEFAULT_F2PY_COMPILER=f2py
  DEFAULT_F_COMPILER=gfortran
 -MACFLAG=-mmacosx-version-min=10.7
 -DEFAULT_CPP_COMPILER=clang
--STDLIB=-lc++
--STDLIB_FLAG=-stdlib=libc++
 +MACFLAG=
 +DEFAULT_CPP_COMPILER=g++
+ MG5AMC_VERSION=SpecifiedByMG5aMCAtRunTime
+-STDLIB=-lc++
 +STDLIB=-lstdc++
+ PYTHIA8_PATH=NotInstalled
+-STDLIB_FLAG=-stdlib=libc++
 +STDLIB_FLAG=
  #end_of_make_opts_variables
- # Rest of the makefile
  
 diff --git a/Template/NLO/SubProcesses/reweight0.inc b/Template/NLO/SubProcesses/reweight0.inc
 index 5329885..5907f1f 100644
@@ -44,7 +45,7 @@ index 5329885..5907f1f 100644
  c New format to allow for multiple PDF sets and scales (both functional form
  c and normal)
        integer    maxPDFsets,   maxdynscales
--      parameter (maxPDFsets=10,maxdynscales=10)
+-      parameter (maxPDFsets=25,maxdynscales=10)
 +      parameter (maxPDFsets=40,maxdynscales=10)
        integer lhaPDFid(0:maxPDFsets),nmemPDF(maxPDFsets)
       $     ,dyn_scale(0:maxdynscales)
@@ -53,12 +54,12 @@ diff --git a/madgraph/various/banner.py b/madgraph/various/banner.py
 index 9378184..e8ce9b5 100755
 --- a/madgraph/various/banner.py
 +++ b/madgraph/various/banner.py
-@@ -2112,8 +2112,8 @@ class RunCardNLO(RunCard):
+@@ -3457,8 +3457,8 @@ class RunCardNLO(RunCard):
              raise InvalidRunCard, "'reweight_scale' and 'dynamical_scale_choice' lists should have the same length"
          if len(self['dynamical_scale_choice']) > 10 :
              raise InvalidRunCard, "Length of list for 'dynamical_scale_choice' too long: max is 10."
--        if len(self['lhaid']) > 10 :
--            raise InvalidRunCard, "Length of list for 'lhaid' too long: max is 10."
+-        if len(self['lhaid']) > 25 :
+-            raise InvalidRunCard, "Length of list for 'lhaid' too long: max is 25."
 +        if len(self['lhaid']) > 40 :
 +            raise InvalidRunCard, "Length of list for 'lhaid' too long: max is 40."
          if len(self['rw_rscale']) > 9 :

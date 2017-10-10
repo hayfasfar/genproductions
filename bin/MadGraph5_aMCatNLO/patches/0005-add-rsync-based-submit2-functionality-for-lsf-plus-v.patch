@@ -41,7 +41,7 @@ index effede0..4a9c3d6 100755
  
          if 'cluster_queue' in opts:
              self.cluster_queue = opts['cluster_queue']
-@@ -307,7 +316,8 @@ class Cluster(object):
+@@ -309,7 +318,8 @@ class Cluster(object):
              else:
                  nb_job = idle + run + finish + fail
              if fail:
@@ -51,7 +51,7 @@ index effede0..4a9c3d6 100755
              if idle + run == 0:
                  #time.sleep(20) #security to ensure that the file are really written on the disk
                  logger.info('All jobs finished')
-@@ -852,6 +862,7 @@ class CondorCluster(Cluster):
+@@ -856,6 +866,7 @@ class CondorCluster(Cluster):
                    Universe = vanilla
                    notification = Error
                    Initialdir = %(cwd)s
@@ -59,7 +59,7 @@ index effede0..4a9c3d6 100755
                    %(requirement)s
                    getenv=True
                    queue 1
-@@ -928,6 +939,7 @@ class CondorCluster(Cluster):
+@@ -932,6 +943,7 @@ class CondorCluster(Cluster):
                    Universe = vanilla
                    notification = Error
                    Initialdir = %(cwd)s
@@ -67,7 +67,7 @@ index effede0..4a9c3d6 100755
                    %(requirement)s
                    getenv=True
                    queue 1
-@@ -1035,6 +1047,13 @@ class CondorCluster(Cluster):
+@@ -1039,6 +1051,13 @@ class CondorCluster(Cluster):
                      idle += 1
                  elif status == 'R':
                      run += 1
@@ -81,7 +81,7 @@ index effede0..4a9c3d6 100755
                  elif status != 'C':
                      fail += 1
  
-@@ -1361,6 +1380,80 @@ class LSFCluster(Cluster):
+@@ -1365,6 +1384,80 @@ class LSFCluster(Cluster):
      name = 'lsf'
      job_id = 'LSB_JOBID'
  
@@ -162,7 +162,7 @@ index effede0..4a9c3d6 100755
      @multiple_try()
      def submit(self, prog, argument=[], cwd=None, stdout=None, stderr=None, log=None,
                 required_output=[], nb_submit=0):
-@@ -1384,6 +1477,8 @@ class LSFCluster(Cluster):
+@@ -1388,6 +1481,8 @@ class LSFCluster(Cluster):
          if log is None:
              log = '/dev/null'
          
@@ -171,7 +171,7 @@ index effede0..4a9c3d6 100755
          text += prog
          if argument:
              text += ' ' + ' '.join(argument)
-@@ -1410,6 +1505,137 @@ class LSFCluster(Cluster):
+@@ -1414,6 +1509,137 @@ class LSFCluster(Cluster):
          return id        
          
          
@@ -309,7 +309,7 @@ index effede0..4a9c3d6 100755
      @multiple_try()
      def control_one_job(self, id):
          """ control the status of a single job with it's cluster id """
-@@ -1439,38 +1665,49 @@ class LSFCluster(Cluster):
+@@ -1443,38 +1669,49 @@ class LSFCluster(Cluster):
          """ control the status of a single job with it's cluster id """
          
          if not self.submitted_ids:
