@@ -55,11 +55,6 @@ if [ -z "$PRODHOME" ]; then
   PRODHOME=`pwd`
 fi 
 
-if [ ! -z ${CMSSW_BASE} ]; then
-  echo "Error: This script must be run in a clean environment as it sets up CMSSW itself.  You already have a CMSSW environment set up for ${CMSSW_VERSION}."
-  echo "Please try again from a clean shell."
-  if [ "${BASH_SOURCE[0]}" != "${0}" ]; then return 1; else exit 1; fi
-fi
 
 #catch unset variables
 set -u
@@ -141,14 +136,14 @@ CARDSDIR=${PRODHOME}/${carddir}
 
 MGBASEDIR=mgbasedir
 
-MG=MG5_aMC_v2.4.2.tar.gz
+MG=MG5_aMC_v2.5.5.tar.gz
 MGSOURCE=https://cms-project-generators.web.cern.ch/cms-project-generators/$MG
 
 #syscalc is a helper tool for madgraph to add scale and pdf variation weights for LO processes
 SYSCALC=SysCalc_V1.1.6.tar.gz
 SYSCALCSOURCE=https://cms-project-generators.web.cern.ch/cms-project-generators/$SYSCALC
 
-MGBASEDIRORIG=MG5_aMC_v2_4_2
+MGBASEDIRORIG=MG5_aMC_v2_5_5
 
 isscratchspace=0
 
@@ -229,12 +224,8 @@ if [ ! -d ${AFS_GEN_FOLDER}/${name}_gridpack ]; then
       echo "set run_mode  1" >> mgconfigscript
       if [ "$queue" == "condor" ]; then
         echo "set cluster_type condor" >> mgconfigscript
-        #*FIXME* broken in mg_amc 2.4.0
-#        echo "set cluster_queue None" >> mgconfigscript
       else
         echo "set cluster_type lsf" >> mgconfigscript
-        #*FIXME* broken in mg_amc 2.4.0
-#         echo "set cluster_queue $queue" >> mgconfigscript
       fi 
       if [ $iscmsconnect -gt 0 ]; then
 	  n_retries=10
@@ -747,7 +738,10 @@ EXTRA_TAR_ARGS=""
 if [ -e $CARDSDIR/${name}_externaltarball.dat ]; then
     EXTRA_TAR_ARGS="${name}_externaltarball.dat header_for_madspin.txt"
 fi
-XZ_OPT="$XZ_OPT" tar -cJpsf ${PRODHOME}/${name}_${scram_arch}_${cmssw_version}_tarball.tar.xz mgbasedir process runcmsgrid.sh gridpack_generation*.log InputCards $EXTRA_TAR_ARGS
+
+# Adding --exclude=process/lib/PDFsets, otherwise tarring fails
+# Adding --touch option to avoid clock skew warnings
+XZ_OPT="$XZ_OPT" tar --exclude=process/lib/PDFsets --touch -cJpsf ${PRODHOME}/${name}_${scram_arch}_${cmssw_version}_tarball.tar.xz mgbasedir process runcmsgrid.sh gridpack_generation*.log InputCards $EXTRA_TAR_ARGS
 
 #mv ${name}_${scram_arch}_${cmssw_version}_tarball.tar.xz ${PRODHOME}/${name}_${scram_arch}_${cmssw_version}_tarball.tar.xz
 
