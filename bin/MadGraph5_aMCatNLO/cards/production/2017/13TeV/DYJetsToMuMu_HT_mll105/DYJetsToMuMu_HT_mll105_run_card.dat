@@ -51,18 +51,6 @@
 #*********************************************************************
   lhapdf    = pdlabel     ! PDF set                                  
   $DEFAULT_PDF_SETS = lhaid     ! if pdlabel=lhapdf, this is the lhapdf number
-#*********************************************************************** 
-# Reweight flags to get scale dependence and PDF uncertainty           *
-# For scale dependence: factor rw_scale_up/down around central scale   *
-# For PDF uncertainty: use LHAPDF with supported set                   *
-#***********************************************************************
-  True	               = reweight_scale ! reweight to get scale dependence
-  1.0, 2.0, 0.5        = rw_rscale      ! muR factors to be included by reweighting
-  1.0, 2.0, 0.5        = rw_fscale      ! muF factors to be included by reweighting
-  $DEFAULT_PDF_MEMBERS = reweight_PDF   ! reweight to get PDF uncertainty. Should be a
-                                        ! list booleans of equal length to lhaid to specify for
-                                        ! which PDF set to include the uncertainties.
-#
 #*********************************************************************
 # Renormalization and factorization scales                           *
 #*********************************************************************
