@@ -1,0 +1,23 @@
+diff --git  a/Template/RWGTNLO/makefile b/Template/RWGTNLO/makefile
+--- a/Template/RWGTNLO/makefile 2016-05-26 23:36:59 +0000
++++ b/Template/RWGTNLO/makefile 2017-06-09 12:10:09 +0000
+@@ -10,7 +10,7 @@
+ rwgt2py.so: rwgt.f makefile $(LIBS)
+ 	touch __init__.py	
+ 	touch ../__init__.py
+-	$(F2PY) $(LINKLIBS) $(LDFLAGS) -c  $(RWGT) -m rwgt2py --fcompiler=$(FC)
++ $(F2PY) $(LINKLIBS) $(LDFLAGS) -c  $(RWGT) -m rwgt2py --f77exec=$(FC)
+ 
+ $(LIBS):
+ 	cd PDF; make
+
+diff --git a/madgraph/iolibs/template_files/makefile_sa_f_sp b/madgraph/iolibs/template_files/makefile_sa_f_sp
+--- a/madgraph/iolibs/template_files/makefile_sa_f_sp 2016-11-13 13:28:20 +0000
++++ b/madgraph/iolibs/template_files/makefile_sa_f_sp 2017-06-09 12:10:09 +0000
+@@ -29,3 +29,3 @@
+ matrix$(MENUM)py.so: matrix.f makefile $(LIBS)
+ 	touch __init__.py
+-	$(F2PY) $(LINKLIBS) -c  matrix.f -m matrix$(MENUM)py
+\ No newline at end of file
++	$(F2PY) $(LINKLIBS) -c  matrix.f -m matrix$(MENUM)py --f77exec=$(FC)
+\ No newline at end of file
