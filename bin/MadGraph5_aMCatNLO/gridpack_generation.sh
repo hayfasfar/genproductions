@@ -224,6 +224,8 @@ if [ ! -d ${AFS_GEN_FOLDER}/${name}_gridpack ]; then
       echo "set run_mode  1" >> mgconfigscript
       if [ "$queue" == "condor" ]; then
         echo "set cluster_type condor" >> mgconfigscript
+      elif [ "$queue" == "cream02" ]; then
+        echo "set cluster_type pbs" >> mgconfigscript
       else
         echo "set cluster_type lsf" >> mgconfigscript
       fi 
@@ -348,6 +350,10 @@ if [ ! -d ${AFS_GEN_FOLDER}/${name}_gridpack ]; then
   #*FIXME* workaround for broken set cluster_queue handling
   if [ "$queue" == "condor" ]; then
     echo "cluster_queue = None" >> ./$MGBASEDIRORIG/input/mg5_configuration.txt
+  elif [ "$queue" == "cream02" ]; then
+    echo "cluster_queue = localgrid@cream02" >> ./$MGBASEDIRORIG/input/mg5_configuration.txt
+    mkdir -p /user/$USER/temp
+    echo "cluster_temp_path = /user/$USER/temp" >> ./$MGBASEDIRORIG/input/mg5_configuration.txt
   else
     echo "cluster_queue = $queue" >> ./$MGBASEDIRORIG/input/mg5_configuration.txt
   fi
@@ -559,6 +565,9 @@ if [ "$isnlo" -gt "0" ]; then
   fi
   echo "done" >> makegrid.dat
 
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/python/2.7.6/lib
+  export LIBRARY_PATH=$LD_LIBRARY_PATH
+  echo $LD_LIBRARY_PATH
   cat makegrid.dat | ./bin/generate_events -n pilotrun
   echo "finished pilot run"
 
