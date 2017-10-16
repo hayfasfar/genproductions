@@ -45,6 +45,10 @@ cd $LHEWORKDIR
 
 cd process
 
+#make sure Madspin finds python2.7 when it wants to compile stuff
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/python/2.7.6/lib
+export LIBRARY_PATH=$LD_LIBRARY_PATH
+
 #make sure lhapdf points to local cmssw installation area
 LHAPDFCONFIG=`echo "$LHAPDF_DATA_PATH/../../bin/lhapdf-config"`
 
