@@ -230,13 +230,13 @@ if [ ! -d ${AFS_GEN_FOLDER}/${name}_gridpack ]; then
         echo "set cluster_type lsf" >> mgconfigscript
       fi 
       if [ $iscmsconnect -gt 0 ]; then
-	  n_retries=10
-	  long_wait=300
-	  short_wait=120
+        n_retries=10
+        long_wait=300
+        short_wait=120
       else
-	  n_retries=3
-	  long_wait=60
-	  short_wait=30
+        n_retries=3
+        long_wait=60
+        short_wait=30
       fi
       echo "set cluster_status_update $long_wait $short_wait" >> mgconfigscript
       echo "set cluster_nb_retry $n_retries" >> mgconfigscript
@@ -274,7 +274,7 @@ if [ ! -d ${AFS_GEN_FOLDER}/${name}_gridpack ]; then
       #get needed BSM model
       if [[ $model = *[!\ ]* ]]; then
         echo "Loading extra model $model"
-        wget --no-verbose --no-check-certificate https://cms-project-generators.web.cern.ch/cms-project-generators/$model	
+        wget --no-verbose --no-check-certificate https://cms-project-generators.web.cern.ch/cms-project-generators/$model
         cd models
         if [[ $model == *".zip"* ]]; then
           unzip ../$model
