@@ -35,4 +35,4 @@ diff --git a/MadSpin/interface_madspin.py  b/MadSpin/interface_madspin.py
 -                with misc.stdchannel_redirected(sys.stdout, os.devnull):
 +                if True:
 -                    mymod.initialise(pjoin(self.path_me, 'Cards','param_card.dat'))
-+                    mymod.initialise('../../../param_card.dat')
++                    mymod.initialise('../Cards/param_card.dat')
