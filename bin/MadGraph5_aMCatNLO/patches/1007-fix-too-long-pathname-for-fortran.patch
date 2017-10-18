@@ -1,0 +1,38 @@
+diff --git a/MadSpin/interface_madspin.py  b/MadSpin/interface_madspin.py 
+--- a/MadSpin/interface_madspin.py 
++++ b/MadSpin/interface_madspin.py
+@@ -1293,3 +1293,3 @@
+     def get_decay_from_file(self,production, evt_decayfile, nb_remain):
+         """return a dictionary PDG -> list of associated decay"""
+-        
++        logger.info('get_decay_from_file')       
+@@ -1409,2 +1409,2 @@
+-        
++        logger.info('get_onshell_evt_and_wgt')
+         tag, order = production.get_tag_and_order()
+@@ -1421,16 +1421,17 @@
+         if hasattr(production, 'me_wgt'):
+             production_me = production.me_wgt
+         else:
+             production_me = self.calculate_matrix_element(production)
+             production.me_wgt = production_me
+-            
++        logger.info('production.me_wgt = ' + str(production.me_wgt))      
+         decay_me = 1.0
+         for pdg in decays:
+             for dec in decays[pdg]:
++                logger.info('calculated matrix element for ' + str(pdg) + ',' + str(dec))
++                logger.info(str(self.calculate_matrix_element(dec)))
+                 decay_me *= self.calculate_matrix_element(dec)
+             random.shuffle(decays[pdg])
+-
+         full_event = lhe_parser.Event(str(production))
+         full_event = full_event.add_decays(decays)
+         full_me = self.calculate_matrix_element(full_event)
+  
+@@ -1462,3 +1464,3 @@
+             with misc.chdir(pjoin(self.path_me, 'madspin_me', 'SubProcesses', pdir)):
+-                with misc.stdchannel_redirected(sys.stdout, os.devnull):
++                if True:
+-                    mymod.initialise(pjoin(self.path_me, 'Cards','param_card.dat'))
++                    mymod.initialise('../../../param_card.dat')
