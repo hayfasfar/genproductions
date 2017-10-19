@@ -286,7 +286,7 @@ def runGetSource(parstage, xgrid, folderName, powInputName, process, noPdfCheck,
 '''
 # Release to be used to define the environment and the compiler needed
 export RELEASE=${CMSSW_VERSION}
-export jhugenversion="v7.0.2"
+export jhugenversion="v7.0.9"
 
 cd $WORKDIR
 pwd
@@ -356,8 +356,8 @@ if [[ -s ./JHUGen.input ]]; then
   jhugen=$(expr $jhugen + 1)
   echo "JHUGen activated!"
   #for decay weights in H->WW and H->ZZ
-  wget --no-verbose https://github.com/hroskes/genproductions/raw/master/bin/JHUGen/Pdecay/PMWWdistribution.out 
-  wget --no-verbose https://github.com/hroskes/genproductions/raw/master/bin/JHUGen/Pdecay/PMZZdistribution.out 
+  wget --no-verbose https://github.com/cms-sw/genproductions/raw/7261679b0fd6464b80479c075b10f9ba1932ab9a/bin/JHUGen/Pdecay/PMWWdistribution.out 
+  wget --no-verbose https://github.com/cms-sw/genproductions/raw/7261679b0fd6464b80479c075b10f9ba1932ab9a/bin/JHUGen/Pdecay/PMZZdistribution.out 
 
 fi
 
@@ -424,9 +424,9 @@ if [ "$process" = "bbH" ]; then
    sed -i -e "s#O2#O0#g" Makefile
 fi
 
-## Not needed anymore
-# sed -i -e 's#$(PDFPACK#lhefread.o pwhg_io_interface.o rwl_weightlists.o rwl_setup_param_weights.o \\ \
-#	$(PDFPACK#' Makefile
+# Remove strange options in fortran (fixed line length, multiCPU compilation)
+sed -i -e "s#132#none#g" Makefile
+sed -i -e "s#make -j FC#make FC#g" Makefile
 
 # hardcode svn info
 sed -i -e 's#^pwhg_main:#$(shell ../svnversion/svnversion.sh>/dev/null) \
@@ -507,6 +507,7 @@ if [ $jhugen = 1 ]; then
   tar zxf JHUGenerator.${jhugenversion}.tar.gz
   cd JHUGenerator
   sed -i -e "s#Comp = ifort#Comp = gfort#g" makefile
+  sed -i -e "s#linkMELA = Yes#linkMELA = No#g" makefile
   make
 
   mkdir -p ${WORKDIR}/${name}
@@ -595,8 +596,8 @@ if [ "$process" = "HJ" ]; then
   cp ../POWHEG-BOX/HJ/NNLOPS-mass-effects/HNNLO-makefile ./makefile 
   cp -r ../POWHEG-BOX/HJ/NNLOPS-mass-effects/HNNLO-patches ./
   cd src/Need/
-  cat pdfset_lhapdf.f | sed -e "s#30#40#g" | sed -e "s#20#25#g" > pdfset_lhapdf.f.new
-  mv pdfset_lhapdf.f.new pdfset_lhapdf.f
+  cat pdfset_lhapdf.f | sed -e "s#30#40#g" | sed -e "s#20#25#g" | sed -e "s#InitPDFset#InitPDFsetByName#g" > pdfset_lhapdf.f.new
+  mv pdfset_lhapdf.f.new pdfset_lhapdf.f  
   cd -
   cat makefile | sed -e "s#LHAPDFLIB=.\+#LHAPDFLIB=$(scram tool info lhapdf | grep LIBDIR | cut -d "=" -f2)#g" > makefile
   make || fail_exit "Failed to compile HNNLO"
@@ -1174,17 +1175,16 @@ if __name__ == "__main__":
                     test_pdf2 = n_column[1].strip()
 
             if not (test_pdf1 == test_pdf2) :
-                print "ERROR: PDF settings not equal for the 2 protons: "+test_pdf1+" vs "+test_pdf2+"... Please check your datacard"
-                quit()
+                raise RuntimeError("ERROR: PDF settings not equal for the 2 protons: {0} vs {1}... Please check your datacard".format(test_pdf1, test_pdf2))
 
             if test_pdf1 != default_pdf :
 #                print "PDF in card: ", test_pdf1, "PDF default: ", default_pdf, test_pdf1==default_pdf
-                print "WARNING: The input card does not have the standard 2017 PDF (NNPDF31 NNLO, 306000 for 5F, 320900 for 4F): "+test_pdf1+". Either change the card or run again with -d 1 to ignore this message.\n"
+                message = "The input card does not have the standard 2017 PDF (NNPDF31 NNLO, 306000 for 5F, 320900 for 4F): {0}. Either change the card or run again with -d 1 to ignore this message.\n".format(test_pdf1)
 
                 if args.noPdfCheck == '0' :
-                    print "Exiting now...\n"
-                    quit()
+                    raise RuntimeError(message)
                 else:
+                    print "WARNING:", message
                     print "FORCING A DIFFERENT PDF SET FOR CENTRAL VALUE\n"
 
     if args.parstage == '0' :
