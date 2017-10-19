@@ -83,7 +83,8 @@ echo "done" >> runscript.dat
 
 domadspin=0
 if [ -f ./Cards/madspin_card.dat ] ;then
-  #set random seed for madspin
+  #set random seed for madspin (and delete first other 'sed seed' entries in the card)
+  sed -i '/set seed/d' ./Cards/madspin_card.dat
   rnum2=$(($rnum+1000000))
   echo "$(echo `echo "set seed $rnum2"` | cat - ./Cards/madspin_card.dat)" > ./Cards/madspin_card.dat
   domadspin=1
