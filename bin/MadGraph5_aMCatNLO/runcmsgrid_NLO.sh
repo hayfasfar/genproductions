@@ -100,10 +100,11 @@ if [ ! -e $LHEWORKDIR/header_for_madspin.txt ]; then
   
     cat runscript.dat | ./bin/generate_events -ox -n $runname
 
-    if [ "$domadspin" -gt "0" ] ; then 
-	mv ./Events/${runname}_decayed_1/events.lhe.gz $LHEWORKDIR/${runname}_final.lhe.gz
-    else
-	mv ./Events/${runname}/events.lhe.gz $LHEWORKDIR/${runname}_final.lhe.gz
+    if [ "$domadspin" -gt "0" ] ; then
+      gzip ./Events/${runname}_decayed_1/events.lhe   # Needs to be zipped when onshell option, so will fail for none
+      mv ./Events/${runname}_decayed_1/events.lhe.gz $LHEWORKDIR/${runname}_final.lhe.gz
+    else 
+      mv ./Events/${runname}/events.lhe.gz $LHEWORKDIR/${runname}_final.lhe.gz
     fi
 
 #else handle external tarball
