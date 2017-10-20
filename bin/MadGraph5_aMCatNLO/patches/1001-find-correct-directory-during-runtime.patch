@@ -1,8 +1,0 @@
-diff --git a/madgraph/interface/amcatnlo_run_interface.py b/madgraph/interface/amcatnlo_run_interface.py
---- a/madgraph/interface/amcatnlo_run_interface.py
-+++ b/madgraph/interface/amcatnlo_run_interface.py
-@@ -1545,3 +1545,4 @@
-                 raise aMCatNLOError('Cannot reconstruct saved job status in %s' % \
-                                     pjoin(self.me_dir,'SubProcesses','job_status.pkl'))
-+            for job in jobs_to_collect: job['dirname'] = pjoin(self.me_dir, 'SubProcesses', job['dirname'].split('SubProcesses/')[-1])
-             # Update cross sections and determine which jobs to run next
