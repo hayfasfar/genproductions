@@ -44,4 +44,4 @@ import model SM_HeavyN_NLO
 define p = p b b~
 define j = p
 generate p p > n1 l [QCD]
-output HeavyNeutrino_trilepton_M-MASS_V-COUPLING_FLAVOURS_NLO -nojpeg
+output HeavyNeutrino_TYPE_M-MASS_V-COUPLING_FLAVOURSEXTRA_NLO -nojpeg
