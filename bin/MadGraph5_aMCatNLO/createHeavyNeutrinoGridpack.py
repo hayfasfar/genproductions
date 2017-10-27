@@ -6,7 +6,7 @@
 
 import sys, os, fnmatch, shutil
 type, mass, coupling, flavor = sys.argv[1:]
-queue = 'cream02'
+queue = 'local'
 
 path = './cards/production/2017/13TeV/exo_heavyNeutrino/'
 
@@ -32,8 +32,8 @@ def createGridpack(path, mass, coupling, flavor, spinmode, isPre2017, type):
       return file
 
 
-gridpack = createGridpack(path, mass, coupling, flavor, 'onshell', True, type)
-shutil.copyfile(gridpack, '~/public/production/gridpacks/prompt/' + gridpack)
+gridpack = createGridpack(path, mass, coupling, flavor, True, True, type)
+shutil.copyfile(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/prompt/' + gridpack)
 os.system('./fixGridpackForDisplaced.sh ' + gridpack)
-shutil.move(gridpack, '~/public/production/gridpacks/displaced/' + gridpack)
+shutil.move(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/displaced/' + gridpack)
 shutil.rmtree(gridpack.split('_slc')[0])
