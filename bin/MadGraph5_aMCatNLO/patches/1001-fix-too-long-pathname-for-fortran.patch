@@ -1,7 +1,7 @@
 diff --git a/MadSpin/interface_madspin.py  b/MadSpin/interface_madspin.py 
 --- a/MadSpin/interface_madspin.py 
 +++ b/MadSpin/interface_madspin.py
-@@ -1462,3 +1463,3 @@
+@@ -1462,3 +1462,3 @@
              with misc.chdir(pjoin(self.path_me, 'madspin_me', 'SubProcesses', pdir)):
                  with misc.stdchannel_redirected(sys.stdout, os.devnull):
 -                    mymod.initialise(pjoin(self.path_me, 'Cards','param_card.dat'))
