@@ -68,7 +68,7 @@ def logFilesOk(gridpack):
 
 for coupling in couplings:
   while True:
-    gridpack = createGridpack(path, mass, coupling, flavor, True, True, type)
+    gridpack = createGridpack(path, mass, coupling, flavor, False, True, type)
     if (not gridpack) or logFilesOk(gridpack): break
   time.sleep(10)
   if gridpack:
