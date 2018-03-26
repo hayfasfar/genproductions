@@ -42,7 +42,7 @@ def createGridpack(path, mass, coupling, flavor, spinmode, isPre2017, type):
   os.system('./gridpack_generation.sh ' + baseName + ' ' + path + '/' + baseName + ' ' + queue)
   time.sleep(10)
   gridpack = findGridpack('.', baseName)
-  shutil.rmtree(gridpack.split('_slc')[0])
+  if gridpack: shutil.rmtree(gridpack.split('_slc')[0])
   return gridpack
 
 if couplings=='all':
