@@ -1,5 +1,5 @@
 diff --git a/Template/LO/SubProcesses/refine.sh b/Template/LO/SubProcesses/refine.sh
-index 1f19ab6..577461f 100644
+index be18cdd..3895ea7 100644
 --- a/Template/LO/SubProcesses/refine.sh
 +++ b/Template/LO/SubProcesses/refine.sh
 @@ -5,6 +5,13 @@ if [ $CLUSTER_LHAPATH ]; then
@@ -17,7 +17,7 @@ index 1f19ab6..577461f 100644
  tar -xzf MadLoop5_resources.tar.gz
  fi
 diff --git a/Template/LO/SubProcesses/refine_splitted.sh b/Template/LO/SubProcesses/refine_splitted.sh
-index 10fe14f..d7d5df6 100644
+index 10fe14f..abc4b99 100644
 --- a/Template/LO/SubProcesses/refine_splitted.sh
 +++ b/Template/LO/SubProcesses/refine_splitted.sh
 @@ -4,6 +4,14 @@
@@ -43,7 +43,7 @@ index 10fe14f..d7d5df6 100644
 \ No newline at end of file
 +cd ../
 diff --git a/Template/LO/SubProcesses/survey.sh b/Template/LO/SubProcesses/survey.sh
-index 8433127..c9ef2c5 100755
+index 8433127..5f121e8 100755
 --- a/Template/LO/SubProcesses/survey.sh
 +++ b/Template/LO/SubProcesses/survey.sh
 @@ -5,6 +5,13 @@ if [ $CLUSTER_LHAPATH ]; then
@@ -61,7 +61,7 @@ index 8433127..c9ef2c5 100755
  tar -xzf MadLoop5_resources.tar.gz;
  fi
 diff --git a/Template/NLO/SubProcesses/ajob_template b/Template/NLO/SubProcesses/ajob_template
-index 93a8260..db5444b 100755
+index b1dc083..ff308ff 100755
 --- a/Template/NLO/SubProcesses/ajob_template
 +++ b/Template/NLO/SubProcesses/ajob_template
 @@ -12,6 +12,13 @@ if [ $CLUSTER_LHAPATH ]; then
@@ -79,7 +79,7 @@ index 93a8260..db5444b 100755
  while [[ (-f MadLoop5_resources.tar.gz) && (! -f MadLoop5_resources/HelConfigs.dat) && ($tarCounter < 10) ]]; do
      if [[ $tarCounter > 0 ]]; then
 diff --git a/Template/NLO/SubProcesses/reweight_xsec_events.local b/Template/NLO/SubProcesses/reweight_xsec_events.local
-index 2bd5719..a38c4e8 100644
+index 2bd5719..cb9b7d2 100644
 --- a/Template/NLO/SubProcesses/reweight_xsec_events.local
 +++ b/Template/NLO/SubProcesses/reweight_xsec_events.local
 @@ -8,6 +8,13 @@ if [ $CLUSTER_LHAPATH ]; then
