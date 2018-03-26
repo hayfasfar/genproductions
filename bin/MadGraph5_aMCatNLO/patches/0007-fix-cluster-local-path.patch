@@ -72,4 +72,4 @@ index 95b0f49..b06677d 100644
 +      Character LHAPath*250,up*3
        data up/'../'/
        logical exists
-       integer i
+       integer i, pos
