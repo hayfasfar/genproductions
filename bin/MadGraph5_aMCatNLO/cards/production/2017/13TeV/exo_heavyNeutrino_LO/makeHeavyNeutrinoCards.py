@@ -16,33 +16,38 @@ def replaceInCard(card, replacements):
 # isPre2017  - use older pdf's as used in Moriond17 campaign
 # type       - trilepton (n1 --> llnu) or lljj (n1 --> ljj)
 #
-def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type, oneFlavourDecay=False):
-  baseName = 'HeavyNeutrino_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_onshell' if onshell else '') + ('_oneFlavorDecay' if oneFlavourDecay else '') + ('_pre2017' if isPre2017 else '') + '_NLO'
+def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type, oneFlavourDecay=False, signFirstFlavor=0):
+  if signFirstFlavor==1:  sign = 'Plus'
+  if signFirstFlavor==-1: sign = 'Min'
+  else:                   sign = ''
+  baseName = 'HeavyNeutrino_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_onshell' if onshell else '') + ('_oneFlavorDecay' if oneFlavourDecay else '') + ('_pre2017' if isPre2017 else '') + '_massiveAndCKM' + sign + '_LO'
 
   try:    os.makedirs(baseName)
   except: pass
 
   for card in ['madspin_card', 'extramodels', 'run_card', 'proc_card', 'customizecards']:
-    shutil.copyfile('templateCards/HeavyNeutrino_template_NLO_' + card + '.dat', baseName + '/' + baseName + '_' + card + '.dat')
+    try:    shutil.copyfile('templateCards/HeavyNeutrino_template_LO_' + card + '.dat', baseName + '/' + baseName + '_' + card + '.dat')
+    except: pass
 
   replacements = [('MASS',     str(mass)),
                   ('COUPLING', str(coupling)),
                   ('FLAVOURS', flavours),
                   ('SPINMODE', 'onshell' if onshell else 'none'),
                   ('TYPE',     type),
-                  ('EXTRA',    ('_onshell' if onshell else '') +  ('_oneFlavorDecay' if oneFlavourDecay else '') + ('_pre2017' if isPre2017 else ''))]
+                  ('EXTRA',    ('_onshell' if onshell else '') +  ('_oneFlavorDecay' if oneFlavourDecay else '') + ('_pre2017' if isPre2017 else '') + '_massiveAndCKM'+sign)]
 
   if flavours == '2l':    replacements += [('l+ = e+ mu+ ta+', 'l+ = e+ mu+'), ('l- = e- mu- ta-', 'l- = e- mu-')]
   elif flavours == 'e':   replacements += [('l+ = e+ mu+ ta+', 'l+ = e+'),     ('l- = e- mu- ta-', 'l- = e-')]
   elif flavours == 'mu':  replacements += [('l+ = e+ mu+ ta+', 'l+ = mu+'),    ('l- = e- mu- ta-', 'l- = mu-')]
-  elif flavours == 'tau': replacements += [('l+ = e+ mu+ ta+', 'l+ = ta+'),    ('l- = e- mu- ta-', 'l- = tau-')]
+  elif flavours == 'tau': replacements += [('l+ = e+ mu+ ta+', 'l+ = ta+'),    ('l- = e- mu- ta-', 'l- = ta-')]
+
+  if signFirstFlavor==1:  replacements += [('l = l+ l-', 'l = l+')]
+  if signFirstFlavor==-1: replacements += [('l = l+ l-', 'l = l-')]
 
   if oneFlavourDecay:
     if flavours in ['2l']:           replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = e+ mu+'), ('ldecay- = e- mu- ta-', 'ldecay- = e- mu-')]
     if flavours in ['e']:            replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = e+'), ('ldecay- = e- mu- ta-', 'ldecay- = e-')]
     if flavours in ['mu']:           replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = mu+'), ('ldecay- = e- mu- ta-', 'ldecay- = mu-')]
-  else:
-    if flavours in ['e','mu','2l']:  replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = e+ mu+'), ('ldecay- = e- mu- ta-', 'ldecay- = e- mu-')]
   if flavours in ['3l', '2l', 'e']:  replacements += [('set param_card numixing 1 0.000000e+00', 'set param_card numixing 1 %E' % coupling)]
   if flavours in ['3l', '2l', 'mu']: replacements += [('set param_card numixing 4 0.000000e+00', 'set param_card numixing 4 %E' % coupling)]
   if flavours in ['3l', 'tau']:      replacements += [('set param_card numixing 7 0.000000e+00', 'set param_card numixing 7 %E' % coupling)]
@@ -52,13 +57,14 @@ def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type, o
     replacements += [('$DEFAULT_PDF_MEMBERS', '292201  =  PDF_set_min\n292302  =  PDF_set_max\nTrue')]
 
   if type=='lljj':
-    replacements += [('decay n1 > ldecay ldecay v', 'decay n1 > ldecay j j')]
+    replacements += [('n1 > ldecay ldecay v', 'n1 > ldecay j j')]
 
 
   replaceInCard(baseName + '/' + baseName + '_run_card.dat',       replacements)
   replaceInCard(baseName + '/' + baseName + '_proc_card.dat',      replacements)
   replaceInCard(baseName + '/' + baseName + '_customizecards.dat', replacements)
-  replaceInCard(baseName + '/' + baseName + '_madspin_card.dat',   replacements)
+  try:    replaceInCard(baseName + '/' + baseName + '_madspin_card.dat',   replacements)
+  except: pass
 
   return baseName
 

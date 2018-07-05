@@ -12,12 +12,11 @@ def replaceInCard(card, replacements):
 # mass       - mass of the heavy neutrino particle
 # coupling   - mixing parameter between the heavy neutrino and lepton
 # flavours   - could be e, mu, tau, 2l (e+mu), 3l (e+mu+tau)
-# onshell    - if true, MadSpin onshell options is used, otherwise 'none'
 # isPre2017  - use older pdf's as used in Moriond17 campaign
 # type       - trilepton (n1 --> llnu) or lljj (n1 --> ljj)
 #
-def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type, oneFlavourDecay=False):
-  baseName = 'HeavyNeutrino_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_onshell' if onshell else '') + ('_oneFlavorDecay' if oneFlavourDecay else '') + ('_pre2017' if isPre2017 else '') + '_NLO'
+def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type):
+  baseName = 'HeavyNeutrino_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_pre2017' if isPre2017 else '') + '_NLO'
 
   try:    os.makedirs(baseName)
   except: pass
@@ -30,19 +29,8 @@ def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type, o
                   ('FLAVOURS', flavours),
                   ('SPINMODE', 'onshell' if onshell else 'none'),
                   ('TYPE',     type),
-                  ('EXTRA',    ('_onshell' if onshell else '') +  ('_oneFlavorDecay' if oneFlavourDecay else '') + ('_pre2017' if isPre2017 else ''))]
+                  ('EXTRA',    ('_pre2017' if isPre2017 else ''))]
 
-  if flavours == '2l':    replacements += [('l+ = e+ mu+ ta+', 'l+ = e+ mu+'), ('l- = e- mu- ta-', 'l- = e- mu-')]
-  elif flavours == 'e':   replacements += [('l+ = e+ mu+ ta+', 'l+ = e+'),     ('l- = e- mu- ta-', 'l- = e-')]
-  elif flavours == 'mu':  replacements += [('l+ = e+ mu+ ta+', 'l+ = mu+'),    ('l- = e- mu- ta-', 'l- = mu-')]
-  elif flavours == 'tau': replacements += [('l+ = e+ mu+ ta+', 'l+ = ta+'),    ('l- = e- mu- ta-', 'l- = tau-')]
-
-  if oneFlavourDecay:
-    if flavours in ['2l']:           replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = e+ mu+'), ('ldecay- = e- mu- ta-', 'ldecay- = e- mu-')]
-    if flavours in ['e']:            replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = e+'), ('ldecay- = e- mu- ta-', 'ldecay- = e-')]
-    if flavours in ['mu']:           replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = mu+'), ('ldecay- = e- mu- ta-', 'ldecay- = mu-')]
-  else:
-    if flavours in ['e','mu','2l']:  replacements += [('ldecay+ = e+ mu+ ta+', 'ldecay+ = e+ mu+'), ('ldecay- = e- mu- ta-', 'ldecay- = e- mu-')]
   if flavours in ['3l', '2l', 'e']:  replacements += [('set param_card numixing 1 0.000000e+00', 'set param_card numixing 1 %E' % coupling)]
   if flavours in ['3l', '2l', 'mu']: replacements += [('set param_card numixing 4 0.000000e+00', 'set param_card numixing 4 %E' % coupling)]
   if flavours in ['3l', 'tau']:      replacements += [('set param_card numixing 7 0.000000e+00', 'set param_card numixing 7 %E' % coupling)]
@@ -52,13 +40,12 @@ def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type, o
     replacements += [('$DEFAULT_PDF_MEMBERS', '292201  =  PDF_set_min\n292302  =  PDF_set_max\nTrue')]
 
   if type=='lljj':
-    replacements += [('decay n1 > ldecay ldecay v', 'decay n1 > ldecay j j')]
+    replacements += [('n1 > l l l v', 'n1 > l l j j')]
 
 
   replaceInCard(baseName + '/' + baseName + '_run_card.dat',       replacements)
   replaceInCard(baseName + '/' + baseName + '_proc_card.dat',      replacements)
   replaceInCard(baseName + '/' + baseName + '_customizecards.dat', replacements)
-  replaceInCard(baseName + '/' + baseName + '_madspin_card.dat',   replacements)
 
   return baseName
 
