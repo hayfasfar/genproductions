@@ -135,14 +135,15 @@ CARDSDIR=${PRODHOME}/${carddir}
 
 MGBASEDIR=mgbasedir
 
-MG=MG5_aMC_v2.6.1.tar.gz
-MGSOURCE=https://cms-project-generators.web.cern.ch/cms-project-generators/$MG
+MG=MG5_aMC_v2.6.2.tar.gz
+#MGSOURCE=https://cms-project-generators.web.cern.ch/cms-project-generators/$MG
+MGSOURCE=https://launchpad.net/mg5amcnlo/2.0/2.6.x/+download/$MG
 
 #syscalc is a helper tool for madgraph to add scale and pdf variation weights for LO processes
 SYSCALC=SysCalc_V1.1.6.tar.gz
 SYSCALCSOURCE=https://cms-project-generators.web.cern.ch/cms-project-generators/$SYSCALC
 
-MGBASEDIRORIG=MG5_aMC_v2_6_1
+MGBASEDIRORIG=MG5_aMC_v2_6_2
 
 isscratchspace=0
 

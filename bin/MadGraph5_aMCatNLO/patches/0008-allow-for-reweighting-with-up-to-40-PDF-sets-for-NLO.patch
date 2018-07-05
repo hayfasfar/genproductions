@@ -1,0 +1,32 @@
+diff --git a/madgraph/various/banner.py b/madgraph/various/banner.py
+index 9378184..e8ce9b5 100755
+--- a/madgraph/various/banner.py
++++ b/madgraph/various/banner.py
+@@ -3590,8 +3590,8 @@ class RunCardNLO(RunCard):
+             raise InvalidRunCard, "'reweight_scale' and 'dynamical_scale_choice' lists should have the same length"
+         if len(self['dynamical_scale_choice']) > 10 :
+             raise InvalidRunCard, "Length of list for 'dynamical_scale_choice' too long: max is 10."
+-        if len(self['lhaid']) > 25 :
+-            raise InvalidRunCard, "Length of list for 'lhaid' too long: max is 25."
++        if len(self['lhaid']) > 40 :
++            raise InvalidRunCard, "Length of list for 'lhaid' too long: max is 40."
+         if len(self['rw_rscale']) > 9 :
+             raise InvalidRunCard, "Length of list for 'rw_rscale' too long: max is 9."
+         if len(self['rw_fscale']) > 9 :
+diff --git a/Template/NLO/MCatNLO/include/reweight0.inc b/Template/NLO/MCatNLO/include/reweight0.inc 
+--- a/Template/NLO/MCatNLO/include/reweight0.inc
++++ b/Template/NLO/MCatNLO/include/reweight0.inc
+@@ -1,3 +1,3 @@
+       integer max_weight_shower,maxscales,maxPDFs
+-      parameter (max_weight_shower=1024,maxscales=9,maxPDFs=200)
++      parameter (max_weight_shower=1024,maxscales=9,maxPDFs=1500)
+       integer iwgtnumpartn,jwgtinfo,mexternal
+diff --git a/Template/NLO/Source/extra_weights.f b/Template/NLO/Source/extra_weights.f
+--- a/Template/NLO/Source/extra_weights.f
+--- b/Template/NLO/Source/extra_weights.f
+@@ -2,3 +2,3 @@
+-         integer,parameter :: iwgtinfo=-5,maxscales=9,maxPDFs=200
++         integer,parameter :: iwgtinfo=-5,maxscales=9,maxPDFs=1500
+-     $     ,maxPDFsets=25,maxdynscales=10
++     $     ,maxPDFsets=40,maxdynscales=10
+          integer :: max_mom_str=1,max_mext=1,max_n_ctr=1
