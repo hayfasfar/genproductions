@@ -15,7 +15,7 @@ width=$(awk '/DECAY  9900012/{print $NF}' ./process/Cards/param_card.dat)       
 #width=$(awk '/DECAY  9900012/{print $NF}' ./process/madevent/Cards/param_card.dat)   # LO
 echo "Adapting gridpack $gridpack to add displaced vertex based on width $width"
 sed -i "s/WIDTH/$width/g" addDisplacedVertex.py
-sed -i 's#gzip -d ${runname}_final.lhe.gz#gzip -d ${runname}_final.lhe.gz\n ./addDisplacedVertex.py ${runname}_final.lhe#g' runcmsgrid.sh
+sed -i 's#gzip -d  cmsgrid_final.lhe.gz#gzip -d  cmsgrid_final.lhe.gz\n ./addDisplacedVertex.py ${runname}_final.lhe#g' runcmsgrid.sh
 tar cfJ $gridpack mgbasedir runcmsgrid.sh process gridpack_generation.log addDisplacedVertex.py
 cd ..
 mv temp_$gridpack/$gridpack $1
