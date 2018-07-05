@@ -8,7 +8,7 @@ import sys, os, fnmatch, shutil, math, numpy, time
 type, mass, couplings, flavor = sys.argv[1:]
 queue = 'cream02'
 
-path = './cards/production/2017/13TeV/exo_heavyNeutrino_LO/'
+path = './cards/production/2017/13TeV/exo_heavyNeutrino_noMadspin/'
 
 def intOrFloat(str):
   try:    return int(str)
@@ -79,7 +79,7 @@ for coupling in couplings:
     print gridpack + ' --> prompt done'
     shutil.copyfile(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/prompt/' + gridpack)
     print gridpack + ' --> fixing for displaced'
-    os.system('./fixGridpackForDisplacedLO.sh ' + gridpack)
+    os.system('./fixGridpackForDisplaced.sh ' + gridpack)
     shutil.move(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/displaced/' + gridpack)
     print gridpack + ' --> displaced done'
     try:    os.remove(gridpack.split('LO')[0] + 'LO.log')
