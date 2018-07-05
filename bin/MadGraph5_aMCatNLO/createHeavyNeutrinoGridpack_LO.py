@@ -6,9 +6,9 @@
 
 import sys, os, fnmatch, shutil, math, numpy, time
 type, mass, couplings, flavor = sys.argv[1:]
-queue = 'local'
+queue = 'cream02'
 
-path = './cards/production/2017/13TeV/exo_heavyNeutrino/'
+path = './cards/production/2017/13TeV/exo_heavyNeutrino_LO/'
 
 def intOrFloat(str):
   try:    return int(str)
@@ -60,23 +60,27 @@ else:
   couplings = [couplings]
 
 def logFilesOk(gridpack):
-  with open(gridpack.split('NLO')[0] + 'NLO.log') as f:
-    for line in f:
-      if '+' in line: continue
-      if 'tar: Error is not recoverable: exiting now' in line: return False
+  try:
+    with open(gridpack.split('LO')[0] + 'LO.log') as f:
+      for line in f:
+        if '+' in line: continue
+        if 'tar: Error is not recoverable: exiting now' in line: return False
+  except:
+    pass
   return True
 
 for coupling in couplings:
-  for spinmode in [False, True]:
-    while True:
-      gridpack = createGridpack(path, mass, coupling, flavor, spinmode, False, type)
-      if (not gridpack) or logFilesOk(gridpack): break
-    time.sleep(10)
-    if gridpack:
-      print gridpack + ' --> prompt done'
-      shutil.copyfile(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/prompt/' + gridpack)
-      print gridpack + ' --> fixing for displaced'
-      os.system('./fixGridpackForDisplaced.sh ' + gridpack)
-      shutil.move(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/displaced/' + gridpack)
-      print gridpack + ' --> displaced done'
-      os.remove(gridpack.split('NLO')[0] + 'NLO.log')
+  while True:
+    gridpack = createGridpack(path, mass, coupling, flavor, False, False, type)
+    if (not gridpack) or logFilesOk(gridpack): break
+    if gridpack: shutil.move(gridpack, gridpack + '_problem')
+  time.sleep(10)
+  if gridpack:
+    print gridpack + ' --> prompt done'
+    shutil.copyfile(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/prompt/' + gridpack)
+    print gridpack + ' --> fixing for displaced'
+    os.system('./fixGridpackForDisplaced.sh ' + gridpack)
+    shutil.move(gridpack, '/user/' + os.environ['USER'] + '/public/production/gridpacks/displaced/' + gridpack)
+    print gridpack + ' --> displaced done'
+    try:    os.remove(gridpack.split('LO')[0] + 'LO.log')
+    except: pass
