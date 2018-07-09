@@ -16,13 +16,13 @@ def replaceInCard(card, replacements):
 # type       - trilepton (n1 --> llnu) or lljj (n1 --> ljj)
 #
 def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type):
-  baseName = 'HeavyNeutrino_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_pre2017' if isPre2017 else '') + '_NLO'
+  baseName = 'HeavyNeutrino_noMadspin_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_pre2017' if isPre2017 else '') + '_NLO'
 
   try:    os.makedirs(baseName)
   except: pass
 
-  for card in ['madspin_card', 'extramodels', 'run_card', 'proc_card', 'customizecards']:
-    shutil.copyfile('templateCards/HeavyNeutrino_template_NLO_' + card + '.dat', baseName + '/' + baseName + '_' + card + '.dat')
+  for card in ['extramodels', 'run_card', 'proc_card', 'customizecards']:
+    shutil.copyfile('templateCards/HeavyNeutrino_noMadspin_template_NLO_' + card + '.dat', baseName + '/' + baseName + '_' + card + '.dat')
 
   replacements = [('MASS',     str(mass)),
                   ('COUPLING', str(coupling)),

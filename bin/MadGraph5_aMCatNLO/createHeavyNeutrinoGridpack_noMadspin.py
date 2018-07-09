@@ -61,7 +61,7 @@ else:
 
 def logFilesOk(gridpack):
   try:
-    with open(gridpack.split('LO')[0] + 'LO.log') as f:
+    with open(gridpack.split('NLO')[0] + 'NLO.log') as f:
       for line in f:
         if '+' in line: continue
         if 'tar: Error is not recoverable: exiting now' in line: return False
