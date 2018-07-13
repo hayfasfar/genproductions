@@ -14,12 +14,12 @@ def intOrFloat(str):
   try:    return int(str)
   except: return float(str)
 
-def createCards(path, mass, coupling, flavor, spinmode, isPre2017, type):
+def createCards(path, mass, coupling, flavor, type):
   sys.path.append(path)
   from makeHeavyNeutrinoCards import makeHeavyNeutrinoCards
   cwd = os.getcwd()
   os.chdir(path)
-  baseName = makeHeavyNeutrinoCards(intOrFloat(mass), float(coupling), flavor, spinmode, isPre2017, type)
+  baseName = makeHeavyNeutrinoCards(intOrFloat(mass), float(coupling), flavor type)
   os.chdir(cwd)
   return baseName
 
@@ -29,8 +29,8 @@ def findGridpack(dir, baseName):
       return file
   return None
 
-def createGridpack(path, mass, coupling, flavor, spinmode, isPre2017, type):
-  baseName = createCards(path, mass, coupling, flavor, spinmode, isPre2017, type)
+def createGridpack(path, mass, coupling, flavor, type):
+  baseName = createCards(path, mass, coupling, flavor, type)
   gridpack = findGridpack('/user/tomc/public/production/gridpacks/displaced', baseName)
   if gridpack:
     print gridpack + ' already exist, skipping'

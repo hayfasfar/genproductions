@@ -15,7 +15,7 @@ def replaceInCard(card, replacements):
 # type       - trilepton (n1 --> llnu) or lljj (n1 --> ljj)
 #
 def makeHeavyNeutrinoCards(mass, coupling, flavours, type):
-  baseName = 'HeavyNeutrino_noMadspin_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_pre2017' if isPre2017 else '') + '_NLO'
+  baseName = 'HeavyNeutrino_noMadspin_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + '_NLO'
 
   try:    os.makedirs(baseName)
   except: pass
