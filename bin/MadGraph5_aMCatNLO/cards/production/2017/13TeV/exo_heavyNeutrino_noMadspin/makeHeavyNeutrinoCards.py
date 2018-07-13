@@ -12,10 +12,9 @@ def replaceInCard(card, replacements):
 # mass       - mass of the heavy neutrino particle
 # coupling   - mixing parameter between the heavy neutrino and lepton
 # flavours   - could be e, mu, tau, 2l (e+mu), 3l (e+mu+tau)
-# isPre2017  - use older pdf's as used in Moriond17 campaign
 # type       - trilepton (n1 --> llnu) or lljj (n1 --> ljj)
 #
-def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type):
+def makeHeavyNeutrinoCards(mass, coupling, flavours, type):
   baseName = 'HeavyNeutrino_noMadspin_' + type + '_M-' + str(mass) + '_V-' + str(coupling) + '_' + flavours + ('_pre2017' if isPre2017 else '') + '_NLO'
 
   try:    os.makedirs(baseName)
@@ -27,9 +26,7 @@ def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type):
   replacements = [('MASS',     str(mass)),
                   ('COUPLING', str(coupling)),
                   ('FLAVOURS', flavours),
-                  ('SPINMODE', 'onshell' if onshell else 'none'),
                   ('TYPE',     type),
-                  ('EXTRA',    ('_pre2017' if isPre2017 else ''))]
 
   if flavours in ['3l', '2l', 'e']:  replacements += [('set param_card numixing 1 0.000000e+00', 'set param_card numixing 1 %E' % coupling)]
   if flavours in ['3l', '2l', 'mu']: replacements += [('set param_card numixing 4 0.000000e+00', 'set param_card numixing 4 %E' % coupling)]
@@ -54,10 +51,10 @@ def makeHeavyNeutrinoCards(mass, coupling, flavours, onshell, isPre2017, type):
 #
 if __name__ == "__main__":
   argsList = [
-    (1,     0.11557,     'e',   True,    False, 'trilepton'),
-    (1,     0.11505,     'mu',  True,    False, 'trilepton'),
-    (1,     0.11505,     'mu',  True,    True,  'lljj'),
-    (1,     0.11505,     'mu',  True,    True,  'trilepton')
+    (1, 0.11557, 'e',  'trilepton'),
+    (1, 0.11505, 'mu', 'trilepton'),
+    (1, 0.11505, 'mu', 'lljj'),
+    (1, 0.11505, 'mu', 'trilepton')
   ]
 
   for args in argsList: makeHeavyNeutrinoCards(*args)
