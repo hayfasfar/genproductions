@@ -1,0 +1,20 @@
+set group_subprocesses Auto
+set ignore_six_quark_processes False
+set loop_optimized_output True
+set loop_color_flows False
+set gauge unitary
+set complex_mass_scheme False
+set max_npoint_for_channel 0
+import model sm
+define p = g u c d s u~ c~ d~ s~ b b~
+define j = g u c d s u~ c~ d~ s~ b b~
+import model SM_HeavyN_NLO
+generate  p p > w+ ,( w+ > mu+ n2, (n2 > mu+ j j )) 
+add process  p p > w- ,( w- > mu- n2, (n2 > mu- j j )) 
+add process  p p > w- j ,( w- > mu- n2, (n2 > mu- j j )) 
+add process  p p > w+ j ,( w+ > mu+ n2, (n2 > mu+ j j )) 
+add process  p p > w- j j,( w- > mu- n2, (n2 > mu- j j )) 
+add process  p p > w+ j j ,( w+ > mu+ n2, (n2 > mu+ j j )) 
+
+
+output HeavyNeutrino_noMadspin_TYPE_M-MASS_V-COUPLING_FLAVOURSEXTRA_LO -nojpeg
